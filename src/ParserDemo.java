@@ -17,7 +17,7 @@ public class ParserDemo {
 
 	private static void testFactory() {
 		TokensManager tokensManager = new TokensManager();
-		ConcreteSyntax2 cSyntax = new ConcreteSyntax2();
+		ConcreteSyntax cSyntax = new ConcreteSyntax();
 		cSyntax.tm = tokensManager;
 		
 		Token token = new Token("Integer-Literal", "832");
@@ -43,7 +43,7 @@ public class ParserDemo {
 	
 	private static void testNegation() {
 		TokensManager tokensManager = new TokensManager();
-		ConcreteSyntax2 cSyntax = new ConcreteSyntax2();
+		ConcreteSyntax cSyntax = new ConcreteSyntax();
 		cSyntax.tm = tokensManager;
 			
 		Token token = new Token("Operator", "!");
@@ -57,7 +57,7 @@ public class ParserDemo {
 	
 	private static void testTerm() {
 		TokensManager tokensManager = new TokensManager();
-		ConcreteSyntax2 cSyntax = new ConcreteSyntax2();
+		ConcreteSyntax cSyntax = new ConcreteSyntax();
 		cSyntax.tm = tokensManager;
 			
 		Token token = new Token("Operator", "!");
@@ -82,7 +82,7 @@ public class ParserDemo {
 	
 	private static void testAddition() {
 		TokensManager tokensManager = new TokensManager();
-		ConcreteSyntax2 cSyntax = new ConcreteSyntax2();
+		ConcreteSyntax cSyntax = new ConcreteSyntax();
 		cSyntax.tm = tokensManager;
 			
 		Token token = new Token("Operator", "!");
@@ -101,7 +101,7 @@ public class ParserDemo {
 	
 	private static void testRelation() {
 		TokensManager tokensManager = new TokensManager();
-		ConcreteSyntax2 cSyntax = new ConcreteSyntax2();
+		ConcreteSyntax cSyntax = new ConcreteSyntax();
 		cSyntax.tm = tokensManager;
 			
 		Token token = new Token("Operator", "!");
@@ -120,7 +120,7 @@ public class ParserDemo {
 	
 	private static void testConjunction() {
 		TokensManager tokensManager = new TokensManager();
-		ConcreteSyntax2 cSyntax = new ConcreteSyntax2();
+		ConcreteSyntax cSyntax = new ConcreteSyntax();
 		cSyntax.tm = tokensManager;
 			
 		Token token = new Token("Operator", "!");
@@ -140,7 +140,7 @@ public class ParserDemo {
 	
 	private static void testExpression() {
 		TokensManager tokensManager = new TokensManager();
-		ConcreteSyntax2 cSyntax = new ConcreteSyntax2();
+		ConcreteSyntax cSyntax = new ConcreteSyntax();
 		cSyntax.tm = tokensManager;
 			
 		Token token = new Token("Operator", "!");
@@ -159,9 +159,9 @@ public class ParserDemo {
 	}
 	
 	private static void testExpressionByFile() {
-		TokenStream2 tStream2 = new TokenStream2("/Users/yihl/Desktop/Java/Jay2017/src/prog_factor.jay");
+		TokenStream tStream2 = new TokenStream("/Users/yihl/Desktop/Java/Jay2017/src/prog_factor.jay");
 		tStream2.tokenManager.printAllTokens();
-		ConcreteSyntax2 cSyntax = new ConcreteSyntax2(tStream2);       
+		ConcreteSyntax cSyntax = new ConcreteSyntax(tStream2);       
 		cSyntax.tm.printAllTokens();
 		
 		Assignment assignment = cSyntax.assignment();
@@ -169,8 +169,8 @@ public class ParserDemo {
 	}
 	
 	private static void testProgramByFile() {
-		TokenStream2 tStream2 = new TokenStream2("/Users/yihl/Desktop/Java/Jay2017/src/prog1.jay");
-		ConcreteSyntax2 cSyntax = new ConcreteSyntax2(tStream2);       
+		TokenStream tStream = new TokenStream("/Users/yihl/Desktop/Java/Jay2017/src/prog1.jay");
+		ConcreteSyntax cSyntax = new ConcreteSyntax(tStream);       
 //		cSyntax.tm.printAllTokens();
 		
 		System.out.println(cSyntax.program().display());

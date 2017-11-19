@@ -13,7 +13,7 @@ public class ScannerDemo {
 //		TokenStream ts = new TokenStream(file2);
 //        ts.testToken();
         
-        TokenStream2 ts2 = new TokenStream2(file1);
+        TokenStream ts = new TokenStream(file1);
         
 	}
 }
