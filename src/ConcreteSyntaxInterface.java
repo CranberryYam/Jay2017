@@ -1,4 +1,5 @@
-public interface SyntaxInterface {
+
+public interface ConcreteSyntaxInterface {
 	public Program program();
 	public Statement statement();
 	public Block statements();
@@ -12,7 +13,8 @@ public interface SyntaxInterface {
 	public Expression term();
 	public Expression negation();
 	public Expression factor();
-	public Declarations scanDeclarations(TokensManager tm);
-	public void scanDeclarationsOfOneline(Declarations ds,TokensManager tm);
-	public Type scanType(Token token);
+	public Declarations declarations();
+	public void declarationsOfOneline(Declarations ds);
+	public Type type();
+
 }

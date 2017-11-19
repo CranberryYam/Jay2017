@@ -21,7 +21,7 @@ public class TokenStream {
 			isEof = true;
 		}
 		produceTokens();
-		//tokenManager.printAllTokens();
+		tokenManager.printAllTokens();
 	}
 	
 	public void testReadChar() {
@@ -35,12 +35,15 @@ public class TokenStream {
 	private void produceTokens() {
 		while(!isEof) {
 			Token newToken = newToken();
-			//System.out.println(newToken.toString());
+			
 			if (!newToken.getType().equals("void")) {
+				if (newToken.getType().equals("other")) {
+					System.out.println("Lexical error - use of "+newToken.getValue());
+				}
+				
+				String newValue = newToken.getValue().replace("\n", "").replace("\r", "").replace("\t", "").replace("\f", "");
+				newToken.setValue(newValue);
 				tokenManager.add(newToken);
-			}
-			if (newToken.getType().equals("other")) {
-				System.out.println("Lexical error - use of "+newToken.getValue());
 			}
 		}
 	}
@@ -57,7 +60,7 @@ public class TokenStream {
 //        	    moveToNextChar();
 //        }
         
-        while (nextChar == '/' && !isEof) {   //if the next line is still "//"
+        while (nextChar == '/' && !isEndOfToken(nextChar)) {   //if the next line is still "//"
         	/**Always be careful with WHILE loop, sometimes it never ends**/
 			moveToNextChar();
 			if (nextChar == '/') { 
@@ -144,7 +147,7 @@ public class TokenStream {
 		if (isLetter(nextChar)) {
 			t.setType("Identifier");
 			t.setValue("");
-			while ((isLetter(nextChar) || isDigit(nextChar)) && !isEof) {
+			while ((isLetter(nextChar) || isDigit(nextChar)) && !isEndOfToken(nextChar)) {
 				t.setValue(t.getValue() + nextChar);
 				moveToNextChar();
 			}
@@ -159,7 +162,7 @@ public class TokenStream {
 		if (isDigit(nextChar)) { 
 			t.setType("Integer-Literal");
 			t.setValue("");
-			while (isDigit(nextChar) && !isEof) {   //must check isEndOfFile
+			while (isDigit(nextChar) && !isEndOfToken(nextChar)) {   //must check isEndOfFile
 				t.setValue(t.getValue() + nextChar);
 				moveToNextChar();
 			}
@@ -169,13 +172,11 @@ public class TokenStream {
 		if(!isEof && !isWhiteSpace(nextChar)) {
 		String newValue = t.getValue()+nextChar;
 		t.setType("other");
-		newValue = newValue.replace("\n", "").replace("\r", "").replace("\t", "").replace("\f", "");
 		t.setValue(newValue);   //some time it looks like ;\n
 		moveToNextChar();
 		return t;
 		}
 		
-		Token token = t;
 		//System.out.println("newToken: "+token.toString());
 	    return t;
 	}
@@ -188,7 +189,7 @@ public class TokenStream {
 			try {
 				i = input.read();
 				if (i == -1) {
-					nextChar = (char)i;
+					nextChar = (char)i;  //nextChar will be the last chat
 					isEof = true;
 				}else {
 					nextChar = (char)i;
@@ -244,7 +245,7 @@ public class TokenStream {
 		// \r new line, \n carriage return, \f form feed, \t tap
 	}
 
-	private boolean isEndOfToken(char c) { // Is the value a seperate token?
+	private boolean isEndOfToken(char c) { // Is the value a separate token?
 		return (isWhiteSpace(nextChar) || isOperator(nextChar)
 				|| isSeparator(nextChar) || isEof);
 	}
@@ -254,7 +255,7 @@ public class TokenStream {
 	}
 
 	private boolean isOperator(char c) {
-		return (c == '=' || c == '+' || c == '-' || c == '*' || c == '/' || c == '<' 
+		return (c == '=' || c == '+' || c == '-' || c == '*' || c == '<' 
 			||c == '>' || c == 92 || c == '!' || c=='&' || c=='|');
 	}
 

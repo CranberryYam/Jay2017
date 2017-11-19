@@ -34,6 +34,14 @@ class Indenter {
 			tab = tab + "  ";
 		return nl + tab + message;
 	}
+	public static String display(String message,int level) {
+		// Displays a message on the next line at the current level
+		String tab = "";
+		String nl = "\n";
+		for (int i = 0; i < level; i++)
+			tab = tab + "  ";
+		return nl + tab + message;
+	}
 }
 class Declarations extends Vector {
 	// Declarations = Declaration *
@@ -90,51 +98,48 @@ class Type {
 	}
 }
 
-class Statement {
+interface Statement {
 	// Statement = Skip | Block | Assignment | Conditional | Loop
 
+	public String display(int level);
+}
+
+class Skip implements Statement {
+
 	public String display(int level) {
-		Indenter indent = new Indenter(level);
-		return indent.display(getClass().toString().substring(6) + ": ");
+		return Indenter.display(getClass().toString().substring(6) + ": ",level);
 	}
 }
 
-class Skip extends Statement {
-
-	public String display(int level) {
-		return super.display(level);
-	}
-}
-
-class Block extends Statement {
+class Block implements Statement {
 	// Block = Statement*
 	//		   (a Vector of members) 
 
 	public Vector blockmembers = new Vector();
 
 	public String display(int level) {
-		String s = super.display(level);
+		String s = Indenter.display(getClass().toString().substring(6) + ": ",level);
 		for (int i = 0; i < blockmembers.size(); i++)
 			s = s + ((Statement) blockmembers.elementAt(i)).display(level + 1);
 		return s;
 	}
 }
 
-class Assignment extends Statement {
+class Assignment implements Statement {
 	// Assignment = Variable target; Expression source
 
 	public Variable target;
 	public Expression source;
 
 	public String display(int level) {
-		String s = super.display(level);
+		String s = Indenter.display(getClass().toString().substring(6) + ": ",level);
 		String tar = target.display(level + 1);
 		String sour = source.display(level + 1);
 		return s + tar + sour;
 	}
 }
 
-class Conditional extends Statement {
+class Conditional implements Statement {
 	// Conditional = Expression test; Statement thenbranch, elsebranch
 
 	public Expression test;
@@ -142,7 +147,7 @@ class Conditional extends Statement {
 	// elsebranch == null means "if... then" Statement
 
 	public String display(int level) {
-		String s = super.display(level);
+		String s = Indenter.display(getClass().toString().substring(6) + ": ",level);
 		String cond = test.display(level + 1);
 		String then = thenbranch.display(level + 1);
 		String els = "";
@@ -152,30 +157,27 @@ class Conditional extends Statement {
 	}
 }
 
-class Loop extends Statement {
+class Loop implements Statement {
 	// Loop = Expression test; Statement body
 
 	public Expression test;
 	public Statement body;
 
 	public String display(int level) {
-		String s = super.display(level);
+		String s = Indenter.display(getClass().toString().substring(6) + ": ",level);
 		String t = test.display(level + 1);
 		String b = body.display(level + 1);
 		return s + t + b;
 	}
 }
 
-class Expression {
+interface Expression {
 	// Expression = Variable | Value | Binary | Unary
 
-	public String display(int level) {
-		Indenter indent = new Indenter(level);
-		return indent.display(getClass().toString().substring(6) + ": ");
-	}
+	public String display(int level);
 }
 
-class Variable extends Expression {
+class Variable implements Expression {
 	// Variable = String id
 
 	public String id;
@@ -196,12 +198,12 @@ class Variable extends Expression {
 	}
 
 	public String display(int level) {
-		String s = super.display(level);
+		String s = Indenter.display(getClass().toString().substring(6) + ": ",level);
 		return s + id;
 	}
 }
 
-class Value extends Expression {
+class Value implements Expression {
 	// Value = int intValue | bool boolValue
 
 	public Type type;
@@ -225,7 +227,7 @@ class Value extends Expression {
 	}
 
 	public String display(int level) {
-		String s = super.display(level);
+		String s = Indenter.display(getClass().toString().substring(6) + ": ",level);
 		if (type.isInteger())
 			s = s + intValue;
 		else if (type.isBoolean())
@@ -234,14 +236,14 @@ class Value extends Expression {
 	}
 }
 
-class Binary extends Expression {
+class Binary implements Expression {
 	// Binary = Operator op; Expression term1, term2
 
 	public Operator op;
 	public Expression term1, term2;
 
 	public String display(int level) {
-		String s = super.display(level);
+		String s = Indenter.display(getClass().toString().substring(6) + ": ",level);
 		String sop = op.display(level + 1);
 		String t1 = term1.display(level + 1);
 		String t2 = term2.display(level + 1);
@@ -249,14 +251,14 @@ class Binary extends Expression {
 	}
 }
 
-class Unary extends Expression {
+class Unary implements Expression {
 	// Unary = Operator op; Expression term
 
 	public Operator op;
 	public Expression term;
 
 	public String display(int level) {
-		String s = super.display(level);
+		String s = Indenter.display(getClass().toString().substring(6) + ": ",level);
 		String sop = op.display(level + 1);
 		String t = term.display(level + 1);
 		return s + sop + t;
@@ -315,7 +317,6 @@ class Operator {
 	}
 
 	public String display(int level) {
-		Indenter indent = new Indenter(level);
-		return indent.display(getClass().toString().substring(6) + ": " + val);
+		return Indenter.display(getClass().toString().substring(6) + ": ",level);
 	}
 }

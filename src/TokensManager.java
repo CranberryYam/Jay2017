@@ -5,15 +5,35 @@ public class TokensManager {
 	public int tokenPosition = 0;
 	private ArrayList<Token> tokens;
 	
+	
 	public TokensManager() {
 		tokens = new ArrayList<Token>();
 	}
 	public TokensManager(ArrayList<Token> tokens) {
 		this.tokens = tokens;
 	}
+	
+	
+/*************************************  Move Method   **************************************/
+	public void add(Token token) {
+		tokens.add(token);
+	}
 	public int tokesize() {
 		return tokens.size();
 	}
+	public TokensManager newFrom(int from,int to) {
+		ArrayList<Token> newTokens = new ArrayList<Token>(tokens.subList(from, to > tokens.size() ? tokens.size() : to));
+		TokensManager newOne = new TokensManager(newTokens); 
+		return newOne;
+	}
+	public boolean isLastToken() {
+		if (tokenPosition==tokens.size()) {
+			return true;
+		}
+		return false;
+	}
+
+/*************************************  Current Token Methods   **************************************/	
 	public Token currentToken() {
 		Token token;
 		if (tokenPosition<tokens.size()) {
@@ -44,6 +64,8 @@ public class TokensManager {
 		}
 		return false;
 	}
+	
+/*************************************  Move&Match Token Methods   **************************************/	
 	public Token moveOneToken() {
 			tokenPosition++;
 			return currentToken();
@@ -71,28 +93,14 @@ public class TokensManager {
 			moveOneToken();
 		}
     }
-	public TokensManager newFrom(int from,int to) {
-		ArrayList<Token> newTokens = new ArrayList<Token>(tokens.subList(from, to > tokens.size() ? tokens.size() : to));
-		TokensManager newOne = new TokensManager(newTokens); 
-		return newOne;
-	}
-	
-	public void add(Token token) {
-		tokens.add(token);
-	}
-	
+
+/*************************************  Extra Methods   **************************************/		
 	public void printAllTokens() {
 		for (Token token : tokens) {
 			  System.out.println(token.toString());
 		}
 	}
 	
-	public boolean isLastToken() {
-		if (tokenPosition==tokens.size()) {
-			return true;
-		}
-		return false;
-	}
 	private String SyntaxError(String tok, Token token) {
 		String s = "Syntax error - Expecting: " + tok + " But saw "
 				+ token.getType() + ": " + token.getValue();

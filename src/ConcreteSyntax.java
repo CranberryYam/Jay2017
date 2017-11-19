@@ -1,5 +1,5 @@
 
-public class ConcreteSyntax implements SyntaxInterface {
+public class ConcreteSyntax implements ConcreteSyntaxInterface {
 	
 	public TokenStream input; 
 	public TokensManager tm;
@@ -20,7 +20,7 @@ public class ConcreteSyntax implements SyntaxInterface {
 		for (int i = 0; i < header.length; i++)
 		       tm.matchAndMove(header[i]);
 	    tm.matchAndMove("{");
-		p.decpart = scanDeclarations(tm);
+		p.decpart = declarations();
 		p.body = statements();
 		tm.matchAndMove("}");
 		return p;
@@ -32,16 +32,14 @@ public class ConcreteSyntax implements SyntaxInterface {
 		if (tm.currentTokenValueIs(";")) { // Skip
 			tm.moveOneToken();
 		} else if (tm.currentTokenValueIs("{")) { // Block
-			Token token = tm.getCurrentToken();
 			tm.matchAndMove("{");
 			s = statements();
+			tm.matchAndMove("}");
 		} else if (tm.currentTokenValueIs("if")) // IfStatement
 			s = ifStatement();
 		else if (tm.currentTokenValueIs("while")) {
-			Token token = tm.getCurrentToken();
 			s = whileStatement();
 		} else if (tm.currentTokenTypeIs("Identifier")) { // Assignment
-			Token token = tm.getCurrentToken();
 			s = assignment();
 		} else
 			throw new RuntimeException(SyntaxError("Statement",tm.getCurrentToken()));
@@ -119,7 +117,6 @@ public class ConcreteSyntax implements SyntaxInterface {
 		Binary b;
 		Expression e;
 		e = relation();
-		Token token = tm.currentToken();
 		while (tm.currentTokenValueIs("&&")) {
 			b = new Binary();
 			b.term1 = e;
@@ -240,21 +237,21 @@ public class ConcreteSyntax implements SyntaxInterface {
 		return e;
 	}
 	
-	public Declarations scanDeclarations(TokensManager tm) {
+	public Declarations declarations() {
 		// Declarations --> { Declaration }*
 		Declarations ds = new Declarations();
 		while (tm.currentTokenValueIs("int")
 				|| tm.currentTokenValueIs("boolean")) {
-			scanDeclarationsOfOneline(ds,tm);
+			declarationsOfOneline(ds);
 		}
 		return ds;
 	}
 	
-	public void scanDeclarationsOfOneline(Declarations ds,TokensManager tm) {
+	public void declarationsOfOneline(Declarations ds) {
 		// Declaration --> Type Identifiers ;
 		Token token = tm.getCurrentToken();
 		
-		Type t = scanType(token);
+		Type t = type();
 		tm.moveOneToken();
 		Declaration d;
 		if (tm.currentTokenTypeIs("Identifier")) {
@@ -284,8 +281,9 @@ public class ConcreteSyntax implements SyntaxInterface {
 		tm.matchAndMove(";");
 	}
 
-	public Type scanType(Token token) {
+	public Type type() {
 		// Type --> int | bool
+		Token token = tm.getCurrentToken();
 		Type t = null;
 		if (token.getValue().equals("int"))
 			t = new Type(token.getValue());
