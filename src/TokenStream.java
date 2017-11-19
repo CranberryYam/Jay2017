@@ -21,7 +21,7 @@ public class TokenStream {
 			isEof = true;
 		}
 		produceTokens();
-		tokenManager.printAllTokens();
+		//tokenManager.printAllTokens();
 	}
 	
 	public void testReadChar() {
@@ -37,9 +37,6 @@ public class TokenStream {
 			Token newToken = newToken();
 			
 			if (!newToken.getType().equals("void")) {
-				if (newToken.getType().equals("other")) {
-					System.out.println("Lexical error - use of "+newToken.getValue());
-				}
 				
 				String newValue = newToken.getValue().replace("\n", "").replace("\r", "").replace("\t", "").replace("\f", "");
 				newToken.setValue(newValue);
@@ -171,7 +168,7 @@ public class TokenStream {
 		
 		if(!isEof && !isWhiteSpace(nextChar)) {
 		String newValue = t.getValue()+nextChar;
-		t.setType("other");
+		t.setType("Other");
 		t.setValue(newValue);   //some time it looks like ;\n
 		moveToNextChar();
 		return t;

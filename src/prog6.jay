@@ -1,0 +1,7 @@
+// Syntactical error: ) of main missing
+void main({
+int number, sqnumber;
+number = 8;
+sqnumber = number * number;
+result = sqnumber;
+}

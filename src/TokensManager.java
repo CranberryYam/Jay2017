@@ -101,6 +101,13 @@ public class TokensManager {
 		}
 	}
 	
+	public void checkLexicalError() {
+		for (Token token : tokens) {
+			if (token.getType().equals("Other"))
+			  System.out.println(" Lexical error - use of "+token.getValue());
+		}
+	}
+	
 	private String SyntaxError(String tok, Token token) {
 		String s = "Syntax error - Expecting: " + tok + " But saw "
 				+ token.getType() + ": " + token.getValue();

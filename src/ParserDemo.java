@@ -12,7 +12,7 @@ public class ParserDemo {
 	   //testConjunction();
 	   //testExpression();
 	   //testExpressionByFile();
-		testProgramByFile();
+		testProgram();
 	}
 
 	private static void testFactory() {
@@ -159,20 +159,21 @@ public class ParserDemo {
 	}
 	
 	private static void testExpressionByFile() {
-		TokenStream tStream2 = new TokenStream("/Users/yihl/Desktop/Java/Jay2017/src/prog_factor.jay");
-		tStream2.tokenManager.printAllTokens();
-		ConcreteSyntax cSyntax = new ConcreteSyntax(tStream2);       
+		TokenStream tStream = new TokenStream("/Users/yihl/Desktop/Java/Jay2017/src/prog_factor.jay");
+		tStream.tokenManager.printAllTokens();
+		ConcreteSyntax cSyntax = new ConcreteSyntax(tStream);       
 		cSyntax.tm.printAllTokens();
 		
 		Assignment assignment = cSyntax.assignment();
 		System.out.println(assignment.display(0));
 	}
 	
-	private static void testProgramByFile() {
-		TokenStream tStream = new TokenStream("/Users/yihl/Desktop/Java/Jay2017/src/prog1.jay");
+	private static void testProgram() {
+		TokenStream tStream = new TokenStream("/Users/yihl/Desktop/Java/Jay2017/src/prog2.jay");
 		ConcreteSyntax cSyntax = new ConcreteSyntax(tStream);       
 //		cSyntax.tm.printAllTokens();
 		
+		cSyntax.tm.checkLexicalError();
 		System.out.println(cSyntax.program().display());
 	}
 }

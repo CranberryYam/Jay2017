@@ -1,0 +1,7 @@
+// No lexical errors. No syntactical errors - Computes 8*8 
+void main(){
+int number, sqnumber;
+number = 8;
+sqnumber = number * number;
+result = sqnumber;
+}
