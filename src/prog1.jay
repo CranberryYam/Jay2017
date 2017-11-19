@@ -1,0 +1,25 @@
+
+1==2/\
+1!24
+1!=2
+1!==/36
+1==>4
+3aaa2!=44444 // lexical error for 3aaa2
+do
+{while}
+<>
+=
+=<
+<=
+>==
+<
+@ // lexical error
+& // lexical error
+**
+&&&
+!=
+()
+;,
+| // lexical error
+|||
+void

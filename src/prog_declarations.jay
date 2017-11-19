@@ -1,0 +1,2 @@
+   int n, fib0, fib1;
+   boolean temp, result;
