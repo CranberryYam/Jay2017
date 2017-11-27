@@ -95,7 +95,7 @@ public class TokensManager {
     }
 
 /*************************************  Extra Methods   **************************************/		
-	public void printAllTokens() {
+    public void printAllTokens() {
 //		for (Token token : tokens) {
 //			  System.out.println(token.toString());
 //		}

@@ -24,12 +24,12 @@ public class TokenStream {
 		//tokenManager.printAllTokens();
 	}
 	
-	public void testReadChar() {
-		while(!isEof) {
-			skipWhiteSpace();
-			System.out.print(nextChar);
-		}
-	}
+//	public void testReadChar() {
+//		while(!isEof) {
+//			skipWhiteSpace();
+//			System.out.print(nextChar);
+//		}
+//	}
 	
 	
 	private void produceTokens() {
@@ -43,6 +43,12 @@ public class TokenStream {
 				tokenManager.add(newToken);
 			}
 		}
+	}
+	
+	public Token nextToken() {
+		Token token = tokenManager.getCurrentToken();
+		tokenManager.moveOneToken();
+		return token;
 	}
 	
 	private Token newToken() { 
@@ -266,6 +272,10 @@ public class TokenStream {
 	
 	public boolean isEoFile() {
 		return isEof;
+	}
+	
+	public boolean isEndofFile() {
+		return tokenManager.isLastToken();
 	}
 	
 }
