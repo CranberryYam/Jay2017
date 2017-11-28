@@ -48,6 +48,7 @@ public class TokenStream {
 	public Token nextToken() {
 		Token token = tokenManager.getCurrentToken();
 		tokenManager.moveOneToken();
+		tokenManager.checkError(token);
 		return token;
 	}
 	
@@ -165,10 +166,12 @@ public class TokenStream {
 		if (isDigit(nextChar)) { 
 			t.setType("Integer-Literal");
 			t.setValue("");
-			while (isDigit(nextChar) && !isEndOfToken(nextChar)) {   //must check isEndOfFile
+			while ((isDigit(nextChar) || isLetter(nextChar)) && !isEndOfToken(nextChar)) {   //must check isEndOfFile
 				t.setValue(t.getValue() + nextChar);
 				moveToNextChar();
+				if (isLetter(nextChar)) t.setType("Other");
 			}
+			
 			return t;
 		}
 		
