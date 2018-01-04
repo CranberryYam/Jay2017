@@ -169,11 +169,11 @@ public class ParserDemo {
 	}
 	
 	private static void testProgram() {
-		TokenStream tStream = new TokenStream("/Users/yihl/Desktop/Java/Jay2017/src/prog2.jay");
+		TokenStream tStream = new TokenStream("/Users/yihl/Desktop/Java/Jay2017/src/prog3.jay");
 		ConcreteSyntax cSyntax = new ConcreteSyntax(tStream);       
 //		cSyntax.tm.printAllTokens();
-		
-		cSyntax.tm.checkLexicalError();
-		System.out.println(cSyntax.program().display());
+//		cSyntax.tm.checkLexicalError();
+		Program p = cSyntax.program();
+		System.out.println(p.display());
 	}
 }
